@@ -13,18 +13,18 @@ You may use this tool for charity or school projects, for commercial use, please
 Always backup your database.
 
 1- Start by providing your MySQL Server Info, then click Next Step button.
-[Server info](images/1.png)
+![Server info](images/1.png)
 
 2- The tool will scan the server for available databases and list them in a dropdown menu, select the database that you want and then click "Generate Admin Panel" button
-[Second Step](images/2.png)
+![Second Step](images/2.png)
 
 3- After a few seconds, you'll get a success message, with a link to the newly created admin panel, and a report of all the operations that were done.
-[Success Message](images/3.png)
+![Success Message](images/3.png)
 
 4- Click the link to the admin panel. You have to sign in using "admin" as an email and a password.
-[Sign in](images/4.png)
+![Sign in](images/4.png)
 
 You'll get a clean bootstrap interface to control the website, check below screenshots:
-[Admin Panel 1](images/5.png)
-[Admin Panel 2](images/6.png)
-[Admin Panel 3](images/7.png)
+![Admin Panel 1](images/5.png)
+![Admin Panel 2](images/6.png)
+![Admin Panel 3](images/7.png)
