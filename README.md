@@ -7,11 +7,9 @@ A suggested usecase for the tool is to create a fast admin panel for a PHP / MyS
 
 You may use this tool for charity or school projects, for commercial use, please contact me.
 
+### Disclaimer: Always backup your database.
+
 ## Instructions:
-
-### Disclaimer:
-Always backup your database.
-
 1- Start by providing your MySQL Server Info, then click Next Step button.
 ![Server info](images/1.png)
 
