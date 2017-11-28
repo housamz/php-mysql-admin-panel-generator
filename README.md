@@ -23,8 +23,10 @@ Always backup your database.
 
 4- Click the link to the admin panel. You have to sign in using "admin" as an email and a password.
 ![Sign in](images/4.png)
-
+---
 You'll get a clean bootstrap interface to control the website, check below screenshots:
 ![Admin Panel 1](images/5.png)
+---
 ![Admin Panel 2](images/6.png)
+---
 ![Admin Panel 3](images/7.png)
