@@ -1,15 +1,15 @@
 <?php
 	include("includes/connect.php");
 
-	$adminemail = mysql_real_escape_string($_POST['email']);
+	$adminemail = mysqli_real_escape_string($link, $_POST['email']);
 	$adminpass = md5($_POST['password']);
 	$auth = 'admin_in';
 
-	$query = mysql_query("SELECT * FROM users WHERE email = '".$adminemail."' AND password = '".$adminpass."'");
-	if (mysql_affected_rows() == 0 ){
+	$query = mysqli_query($link, "SELECT * FROM users WHERE email = '".$adminemail."' AND password = '".$adminpass."'");
+	if (mysqli_affected_rows($link) == 0 ){
 		header("location:"."index.php");
 	} else {
-		$row = mysql_fetch_array($query);
+		$row = mysqli_fetch_array($query);
 		setcookie("adminid",$row["id"]);
 		setcookie("adminpass",$adminpass);
 		setcookie("auth",$auth);

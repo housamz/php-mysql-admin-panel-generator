@@ -1,14 +1,27 @@
 <?php
+function mysqli_result($res,$row=0,$col=0){ 
+    $numrows = mysqli_num_rows($res); 
+    if ($numrows && $row <= ($numrows-1) && $row >=0){
+        mysqli_data_seek($res,$row);
+        $resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+        if (isset($resrow[$col])){
+            return $resrow[$col];
+        }
+    }
+    return false;
+}
+
 function qSELECT($query, $object = NULL){
-	$result = mysql_query($query);
+	global $link;
+	$result = mysqli_query($link, $query);
 	$return = "";
 	if($result){
-		$num = mysql_num_rows($result);
+		$num = mysqli_num_rows($result);
 		for ($i=0; $i<$num; $i++){
 			if(!is_null($object)){
-				$row = mysql_fetch_object($result);
+				$row = mysqli_fetch_object($result);
 			}else{
-				$row = mysql_fetch_array($result);
+				$row = mysqli_fetch_array($result);
 			}
 			$return[$i]=$row;
 		}
@@ -17,9 +30,10 @@ function qSELECT($query, $object = NULL){
 }
 
 function counting($table, $what){
+	global $link;
 	$query = "SELECT COUNT(1) FROM ".$table;
-	$result = mysql_query($query);
-	$num = mysql_result($result, 0, 0);
+	$result = mysqli_query($link, $query);
+	$num = mysqli_result($result, 0, 0);
 	return $num;
 }
 
