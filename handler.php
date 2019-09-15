@@ -105,7 +105,7 @@ if($_POST) {
 		// the generation process starts here
 		// collecting DB connection info to generate includes/connect.php file
 		$connection = "<?php
-		mysqli_connect(\"$host\", \"$username\", \"$password\");
+		\$link = mysqli_connect(\"$host\", \"$username\", \"$password\");
 		mysqli_select_db(\$link, \"$database\");  
 		mysqli_query(\$link, \"SET CHARACTER SET utf8\");
 		?>
