@@ -1,11 +1,15 @@
 # MAGE :: PHP MySQL Admin Panel Generator
 PHP MySQL Admin Panel Generator (MAGE), a PHP tool that helps you create a PHP Admin Panel for any MySQL database in seconds.
 
-Mage is not PHPMyAdmin, it doesn't contain all your databases. It physicall creates an admin panel for a database.
+Mage is not PHPMyAdmin; it doesn't contain all your databases. It physically creates an admin panel for a database.
 
-A suggested usecase for the tool is to create a fast admin panel for a PHP / MySQL project that you're working on in seconds, and then you can tweak it before delivering that.
+A suggested use-case for the tool would be creating an admin panel for a PHP / MySQL project in seconds, and then you can tweak it before delivery.
 
 You may use this tool for charity or school projects, for commercial use, please contact me.
+
+### Name
+MAGE is derived from `M`ySql `A`dmin panel `GE`nerator.
+Mage (meɪdʒ): a magician or learned person.
 
 ### Disclaimer: Always backup your database.
 
