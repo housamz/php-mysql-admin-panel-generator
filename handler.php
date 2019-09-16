@@ -1,4 +1,5 @@
 <?php
+
 // header to return JSON to the jQuery Ajax request
 header('Content-Type: application/json');
 
@@ -44,20 +45,19 @@ if($_POST) {
 	$password 	= $_POST["password"];
 
 	// connecting to the host
-	$link = mysql_connect($host, $username, $password);
+	$link = mysqli_connect($host, $username, $password);
 	if (!$link) {
-		die(json_encode(array('status' => 'error','message'=> 'Could not connect: ' . mysql_error())));
+		die(json_encode(array('status' => 'error','message'=> 'Could not connect: ' . mysqli_error($link))));
 	}
 
 	// if the action is to connect, we request all databases
 	if($action == "connect"){
-
-		$res = mysql_query("SHOW DATABASES");
+		$result = '';
+		$res = mysqli_query($link, "SHOW DATABASES");
 		if (!$res) {
-			die(json_encode(array('status' => 'error','message'=> 'Listing databases failed: ' . mysql_error())));
+			die(json_encode(array('status' => 'error','message'=> 'Listing databases failed: ' . mysqli_error($link))));
 		}
-
-		while ($row = mysql_fetch_assoc($res)) {
+		while ($row = mysqli_fetch_assoc($res)) {
 			$result .= "<option value=\"" .$row['Database'] . "\">" .$row['Database'] . "</option>";
 		}
 
@@ -79,35 +79,35 @@ if($_POST) {
 		$message = "The operations that were performed are: <ul>";
 
 		// select the database
-		$linkdb = mysql_select_db($database);
+		$linkdb = mysqli_select_db($link, $database);
 		if (!$linkdb) {
-			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select database: ' . mysql_error())));
+			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select database: ' . mysqli_error($link))));
 		}
 
 		// creating the users table if it doesn't exist
 		$sql = "CREATE TABLE IF NOT EXISTS `users` (`id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, `role` int(11) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2";
 
-		$res = mysql_query($sql);
+		$res = mysqli_query($link, $sql);
 		if (!$res) {
-			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t create users table: ' . mysql_error())));
+			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t create users table: ' . mysqli_error($link))));
 		}
 
 		// inserting the entry for admin, password is MD5'ed
-		mysql_query("INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES (1, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1)");
+		mysqli_query($link, "INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES (1, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1)");
 
 		// loop to show all the tables and fields
-		$loop = mysql_query("SHOW tables FROM $database");
+		$loop = mysqli_query($link, "SHOW tables FROM $database");
+		
 		if (!$loop) {
-			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select table: ' . mysql_error())));
+			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select table: ' . mysqli_error($link))));
 		}
-
 
 		// the generation process starts here
 		// collecting DB connection info to generate includes/connect.php file
 		$connection = "<?php
-		mysql_connect(\"$host\", \"$username\", \"$password\")or die ('Can not connect to the database: ' . mysql_error());
-		mysql_select_db(\"$database\") or die ('Can not select database: ' . mysql_error());
-		mysql_query(\"SET CHARACTER SET utf8\");
+		mysqli_connect(\"$host\", \"$username\", \"$password\");
+		mysqli_select_db(\$link, \"$database\");  
+		mysqli_query(\$link, \"SET CHARACTER SET utf8\");
 		?>
 		";
 
@@ -199,7 +199,7 @@ if($_POST) {
 			';
 
 			// looping all the database tables
-			while($table = mysql_fetch_array($loop)){
+			while($table = mysqli_fetch_array($loop)){
 
 				// having a name for the table in two cases, all small caps and capitalised
 				$capital = ucfirst($table[0]);
@@ -258,12 +258,11 @@ if($_POST) {
 
 
 				// finding all the columns in a table
-				$row = mysql_query("SHOW columns FROM " . $table[0])
+				$row = mysqli_query($link, "SHOW columns FROM " . $table[0])
 					or die ('cannot select table fields');
 
 				// looping in the columns
-				while ($col = mysql_fetch_array($row)){
-					
+				while ($col = mysqli_fetch_array($row)){
 					// data for the table in the show page tableName.php 
 					$head .= "		\t<th>" . ucfirst(str_replace("_", " ", $col[0])) . "</th>\n";
 					$body .= "	\t<td><?php echo $".$small."s['" . $col[0] . "']?></td>\n";
@@ -288,7 +287,7 @@ if($_POST) {
 					// check if the column is not the ID to create the corresponding save and insert data
 					if ($col[0] != 'id'){
 
-						$save .= "$" . $col[0] . " = mysql_real_escape_string($"."_POST[\"" . $col[0] . "\"]);\n";
+						$save .= "$" . $col[0] . " = mysqli_real_escape_string($"."_POST[\"" . $col[0] . "\"]);\n";
 
 						$insert .= " `" . $col[0] . "` ,";
 
@@ -343,21 +342,21 @@ if($_POST) {
 				$save .= "
 
 				if($"."act == \"add\"){
-					mysql_query(\"INSERT INTO `".$small."` ( ".removeLastChar($insert).") VALUES (".removeLastChar($values).") \");
+					mysqli_query(\$link, \"INSERT INTO `".$small."` ( ".removeLastChar($insert).") VALUES (".removeLastChar($values).") \");
 				}elseif ($"."act == \"edit\"){
-					mysql_query(\"UPDATE `".$small."` SET ".removeLastChar($update)." WHERE `id` = '\".$"."id.\"' \"); ";
+					mysqli_query(\$link, \"UPDATE `".$small."` SET ".removeLastChar($update)." WHERE `id` = '\".$"."id.\"' \"); ";
 
 				if($attach_password == 1){
 					$save .= "
 					if($"."_POST[\"password\"] && $"."_POST[\"password\"] != \"\"){
-						mysql_query(\"UPDATE `".$small."` SET  `password` =  '\".md5($"."password).\"' WHERE `id` = '\".$"."id.\"' \");
+						mysqli_query(\$link, \"UPDATE `".$small."` SET  `password` =  '\".md5($"."password).\"' WHERE `id` = '\".$"."id.\"' \");
 					}
 					";
 				}
 
 				$save .= "	
 					}elseif ($"."act_get == \"delete\"){
-						mysql_query(\"DELETE FROM `".$small."` WHERE id = '\".$"."id_get.\"' \");
+						mysqli_query(\$link, \"DELETE FROM `".$small."` WHERE id = '\".$"."id_get.\"' \");
 					}
 					header(\"location:\".\"".$small.".php\");
 				}
@@ -434,7 +433,7 @@ if($_POST) {
 				
 				<div class=\"visit\">
 					<p class=\"text-center\">Created using MAGE &hearts;</p>
-					<a href=\"https://github.com/housamz/php-mysql-admin-panel-generator\" target=\"_blank\" >Visit Project</a>
+					<a href=\"https://github.com/tej-kweku/php-mysql-admin-panel-generator\" target=\"_blank\" >Visit Project</a>
 				</div>
 			</nav><!-- /end sidebar -->
 
