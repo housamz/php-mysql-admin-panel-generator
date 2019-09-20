@@ -82,9 +82,11 @@
 									<button class="btn btn-primary hidden-first hide" id="generate">Generate Admin Panel</button>
 								</fieldset>
 							</form>
+							<br />
 						</div>
 
-						<div class="col-lg-3 alert alert-dismissible alert-info">
+						<div class="col-lg-3 alert alert-info">
+						
 							<h3>Disclaimer</h3>
 							<ul>
 								<li>Mage doesn't provide a secure CRUD system. The goal of this tool is to make a fast admin panel to control a MySQL database, but securing that is your own responsibility.</li>
@@ -119,6 +121,7 @@
 			$("#connect, #generate").on("click", function(e) {
 				e.preventDefault();
 				action = $(this).attr("id");
+				if(action=="generate"){$("#generate").text('Please Wait...');$("#generate").attr('disabled','disabled');}
 				$.ajax({
 					type: "POST",
 					url: "handler.php",
@@ -131,6 +134,7 @@
 						database: $("#dbSelect").val()
 					},
 					success: function(response){
+						if(action=="generate"){$("#generate").text('Generate');$("#generate").removeAttr('disabled');}
 						if(response.status == "success") {
 							$("#dbSelect").append(response.result);
 							$(".hidden-first").toggleClass("hide");

@@ -14,7 +14,7 @@ function mysqli_result($res,$row=0,$col=0){
 function qSELECT($query, $object = NULL){
 	global $link;
 	$result = mysqli_query($link, $query);
-	$return = "";
+	$return = [];
 	if($result){
 		$num = mysqli_num_rows($result);
 		for ($i=0; $i<$num; $i++){

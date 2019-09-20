@@ -131,7 +131,7 @@ a, a:hover, a:focus {
 		min-width: 80px;
 		max-width: 80px;
 		text-align: center;
-		margin-left: -80px !important ;
+		margin-left: -80px;
 	}
 	a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 		top: auto;

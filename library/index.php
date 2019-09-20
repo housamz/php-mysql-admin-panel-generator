@@ -1,4 +1,5 @@
 <?php
+	error_reporting(0);
 	session_start();
 	if ($_COOKIE['auth'] == "admin_in"){header("location:"."home.php");}
 ?>

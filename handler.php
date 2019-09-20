@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 // header to return JSON to the jQuery Ajax request
 header('Content-Type: application/json');
 
@@ -77,7 +77,7 @@ if($_POST) {
 
 		// gather success info and display to user at the end
 		$message = "The operations that were performed are: <ul>";
-
+		
 		// select the database
 		$linkdb = mysqli_select_db($link, $database);
 		if (!$linkdb) {
@@ -105,7 +105,7 @@ if($_POST) {
 		// the generation process starts here
 		// collecting DB connection info to generate includes/connect.php file
 		$connection = "<?php
-		mysqli_connect(\"$host\", \"$username\", \"$password\");
+		\$link = mysqli_connect(\"$host\", \"$username\", \"$password\");
 		mysqli_select_db(\$link, \"$database\");  
 		mysqli_query(\$link, \"SET CHARACTER SET utf8\");
 		?>
@@ -137,6 +137,7 @@ if($_POST) {
 
 		// collecting data for the includes/header.php page which is the header of all pages
 		$header = '<?php
+		error_reporting(0);
 		session_start();
 		if ($_COOKIE["auth"] != "admin_in"){header("location:"."./");}
 			include("includes/connect.php");
@@ -223,6 +224,7 @@ if($_POST) {
 				// collecting data for the edit page
 				$edit = "<?php
 				include \"includes/header.php\";
+				\$data=[];
 
 				$"."act = $"."_GET['act'];
 				if($"."act == \"edit\"){
@@ -256,7 +258,13 @@ if($_POST) {
 				$icon = random_glyphicon();
 				$header .= "<li><a href=\"" . $small . ".php\"> <i class=\"glyphicon glyphicon-".$icon."\"></i>" . $capital . " <span class=\"pull-right\"><?=counting(\"" . $small . "\", \"id\")?></span></a></li>\n";
 
+				$head='';
+				$body='';
+				$mid='';
 
+				$insert='';
+				$update='';
+				$values='';
 				// finding all the columns in a table
 				$row = mysqli_query($link, "SHOW columns FROM " . $table[0])
 					or die ('cannot select table fields');
@@ -287,7 +295,7 @@ if($_POST) {
 					// check if the column is not the ID to create the corresponding save and insert data
 					if ($col[0] != 'id'){
 
-						$save .= "$" . $col[0] . " = mysqli_real_escape_string($"."_POST[\"" . $col[0] . "\"]);\n";
+						$save .= "$" . $col[0] . " = mysqli_real_escape_string(\$link,$"."_POST[\"" . $col[0] . "\"]);\n";
 
 						$insert .= " `" . $col[0] . "` ,";
 
@@ -296,6 +304,7 @@ if($_POST) {
 							$values .= " '\".md5($" . $col[0] . ").\"',";
 
 						}else{
+							$attach_password = 0;
 							$values .= " '\".$" . $col[0] . ".\"' ,";
 							$update .= " `" . $col[0] . "` =  '\".$" . $col[0] . ".\"' ,";
 						}
