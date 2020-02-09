@@ -442,7 +442,7 @@ if($_POST) {
 				
 				<div class=\"visit\">
 					<p class=\"text-center\">Created using MAGE &hearts;</p>
-					<a href=\"https://github.com/tej-kweku/php-mysql-admin-panel-generator\" target=\"_blank\" >Visit Project</a>
+					<a href=\"https://github.com/housamz/php-mysql-admin-panel-generator\" target=\"_blank\" >Visit Project</a>
 				</div>
 			</nav><!-- /end sidebar -->
 
