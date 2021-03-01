@@ -1,24 +1,24 @@
 <?php
-function mysqli_result($res,$row=0,$col=0){ 
-    $numrows = mysqli_num_rows($res); 
-    if ($numrows && $row <= ($numrows-1) && $row >=0){
-        mysqli_data_seek($res,$row);
-        $resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
-        if (isset($resrow[$col])){
-            return $resrow[$col];
+function mysqli_result($res, $row=0, $col=0) {
+    $numrows = mysqli_num_rows($res);
+    if ($numrows && $row <= ($numrows - 1) && $row >=0) {
+        mysqli_data_seek($res, $row);
+        $response_row = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+        if (isset($response_row[$col])) {
+            return $response_row[$col];
         }
     }
     return false;
 }
 
-function qSELECT($query, $object = NULL){
+function qSELECT($query, $object = NULL) {
 	global $link;
 	$result = mysqli_query($link, $query);
 	$return = [];
-	if($result){
+	if($result) {
 		$num = mysqli_num_rows($result);
-		for ($i=0; $i<$num; $i++){
-			if(!is_null($object)){
+		for ($i=0; $i<$num; $i++) {
+			if(!is_null($object)) {
 				$row = mysqli_fetch_object($result);
 			}else{
 				$row = mysqli_fetch_array($result);
@@ -29,7 +29,7 @@ function qSELECT($query, $object = NULL){
 	return $return;
 }
 
-function counting($table, $what){
+function counting($table, $what) {
 	global $link;
 	$query = "SELECT COUNT(1) FROM ".$table;
 	$result = mysqli_query($link, $query);
@@ -37,25 +37,25 @@ function counting($table, $what){
 	return $num;
 }
 
-function getById($table, $id){
+function getById($table, $id) {
 	$query = "SELECT * FROM ".$table." WHERE id=".$id." ";
 	$result = qSELECT($query);
 	if($result) return $result[0];
 	else return $result;
 }
 
-function getAll($table){
+function getAll($table) {
 	$query = "SELECT * FROM ".$table;
 	$result = qSELECT($query);
 	return $result;
 }
 
-function queryToSelect($table, $where, $operator, $zerovalue, $key, $value, $id){
-	$ul = '<option value="'.$zerovalue.'">Please select</option>';
+function queryToSelect($table, $where, $operator, $zero_value, $key, $value, $id) {
+	$ul = '<option value="'.$zero_value.'">Please select</option>';
 
-	$query = "SELECT * FROM ".$table." WHERE `".$where."` ".$operator." ".$zerovalue." ";
+	$query = "SELECT * FROM ".$table." WHERE `".$where."` ".$operator." ".$zero_value." ";
 	$result = qSELECT($query);
-	foreach ($result as $row){
+	foreach ($result as $row) {
 		$ul .= '<option value="'.$row[$key].'" ';
 		$ul .= $id == $row[$key] ? "selected" : "" ;
 		$ul .= '>'.$row[$value].'</option>';

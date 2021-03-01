@@ -16,16 +16,17 @@ Mage (meɪdʒ): a magician or learned person.
 ### Disclaimer: Always backup your database.
 
 ## Instructions:
-1- Start by providing your MySQL Server Info, then click Next Step button.
+***Note: You need to make sure that you have `php-mysql` package that connects PHP with MySQL, and that you change the `generated` directory permissions to be 777.***  
+1- Start by providing your MySQL Server Info, then click Next Step button.  
 ![Server info](images/1.png)
 
-2- The tool will scan the server for available databases and list them in a dropdown menu, select the database that you want and then click "Generate Admin Panel" button
+2- The tool will scan the server for available databases and list them in a dropdown menu, select the database that you want and then click "Generate Admin Panel" button  
 ![Second Step](images/2.png)
 
-3- After a few seconds, you'll get a success message, with a link to the newly created admin panel, and a report of all the operations that were done.
+3- After a few seconds, you'll get a success message, with a link to the newly created admin panel, and a report of all the operations that were done.  
 ![Success Message](images/3.png)
 
-4- Click the link to the admin panel. You have to sign in using "admin" as an email and a password.
+4- Click the link to the admin panel. You have to sign in using "admin" as an email and a password.  
 ![Sign in](images/4.png)
 
 ---
@@ -37,3 +38,18 @@ You'll get a clean bootstrap interface to control the website, check below scree
 ![Admin Panel 2](images/6.png)
 ---
 ![Admin Panel 3](images/7.png)
+
+
+## Debugging:
+#### Nothing happens when you provide credentials on home page
+You need to install `php-mysql` package, the following installs the latest version.
+```bash
+sudo apt install php-mysql
+service apache2 restart
+```
+
+#### Nothing happens when I click Generate button
+Change the `generated` directory permission to 777
+```bash
+chmod 777 generated
+```

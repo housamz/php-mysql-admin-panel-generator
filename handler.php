@@ -4,17 +4,15 @@ error_reporting(0);
 header('Content-Type: application/json');
 
 // function for removing last colon
-function removeLastChar($string){
+function removeLastChar($string) {
 	$string = substr($string, 0, -1);
 	return $string;
 }
 
 // function to create files
-function createFile($database, $myFile, $stringData){
+function createFile($database, $myFile, $stringData) {
 	$path = "generated/".$database.date("Y-m-d_H-i");
-	if (file_exists($path)) {
-
-	} else {
+	if (!file_exists($path)) {
 		mkdir($path, 0777);
 	}
 	if (file_exists($path."/includes")) {
@@ -27,12 +25,12 @@ function createFile($database, $myFile, $stringData){
 	fclose($fh);
 }
 
-// function to return a random glyphicon to be used in the side bar links
-function random_glyphicon(){
-	$glyphicons = array("asterisk", "plus", "euro", "eur", "minus", "cloud", "envelope", "pencil", "glass", "music", "search", "heart", "star", "star-empty", "user", "film", "th-large", "th", "th-list", "ok", "remove", "zoom-in", "zoom-out", "off", "signal", "cog", "file", "time", "road", "download-alt", "download", "upload", "inbox", "play-circle", "repeat", "refresh", "list-alt", "lock", "flag", "headphones", "volume-off", "volume-down", "volume-up", "qrcode", "barcode", "tag", "tags", "book", "bookmark", "print", "camera", "font", "bold", "italic", "text-height", "text-width", "align-left", "align-center", "align-right", "align-justify", "list", "indent-left", "indent-right", "facetime-video", "picture", "map-marker", "adjust", "tint", "share", "check", "move", "step-backward", "fast-backward", "backward", "play", "pause", "stop", "forward", "fast-forward", "step-forward", "eject", "chevron-left", "chevron-right", "plus-sign", "minus-sign", "remove-sign", "ok-sign", "question-sign", "info-sign", "screenshot", "remove-circle", "ok-circle", "ban-circle", "arrow-left", "arrow-right", "arrow-up", "arrow-down", "share-alt", "resize-full", "resize-small", "exclamation-sign", "gift", "leaf", "fire", "eye-open", "eye-close", "warning-sign", "plane", "calendar", "random", "comment", "magnet", "chevron-up", "chevron-down", "retweet", "shopping-cart", "folder-close", "folder-open", "resize-vertical", "resize-horizontal", "hdd", "bullhorn", "bell", "certificate", "thumbs-up", "thumbs-down", "hand-right", "hand-left", "hand-up", "hand-down", "circle-arrow-right", "circle-arrow-left", "circle-arrow-up", "circle-arrow-down", "globe", "wrench", "tasks", "filter", "briefcase", "fullscreen", "dashboard", "paperclip", "heart-empty", "link", "phone", "pushpin", "usd", "gbp", "sort", "sort-by-alphabet", "sort-by-alphabet-alt", "sort-by-order", "sort-by-order-alt", "sort-by-attributes", "sort-by-attributes-alt", "unchecked", "expand", "collapse-down", "collapse-up", "log-in", "flash", "new-window", "record", "save", "open", "saved", "import", "export", "send", "floppy-disk", "floppy-saved", "floppy-remove", "floppy-save", "floppy-open", "credit-card", "transfer", "cutlery", "header", "compressed", "earphone", "phone-alt", "tower", "stats", "sd-video", "hd-video", "subtitles", "sound-stereo", "sound-dolby", "sound-5-1", "sound-6-1", "sound-7-1", "copyright-mark", "registration-mark", "cloud-download", "cloud-upload", "tree-conifer", "tree-deciduous", "cd", "save-file", "open-file", "level-up", "copy", "paste", "alert", "equalizer", "king", "queen", "pawn", "bishop", "knight", "baby-formula", "tent", "blackboard", "bed", "apple", "erase", "hourglass", "lamp", "duplicate", "piggy-bank", "scissors", "bitcoin", "btc", "xbt", "yen", "jpy", "ruble", "rub", "scale", "ice-lolly", "ice-lolly-tasted", "education", "option-horizontal", "option-vertical", "menu-hamburger", "modal-window", "oil", "grain", "sunglasses", "text-size", "text-color", "text-background", "object-align-top", "object-align-bottom", "object-align-horizontal", "object-align-left", "object-align-vertical", "object-align-right", "triangle-right", "triangle-left", "triangle-bottom", "triangle-top", "console", "superscript", "subscript", "menu-left", "menu-right", "menu-down", "menu-up");
+// function to return a random glyph icon to be used in the side bar links
+function random_glyphicon() {
+	$glyph_icons = array("asterisk", "plus", "euro", "eur", "minus", "cloud", "envelope", "pencil", "glass", "music", "search", "heart", "star", "star-empty", "user", "film", "th-large", "th", "th-list", "ok", "remove", "zoom-in", "zoom-out", "off", "signal", "cog", "file", "time", "road", "download-alt", "download", "upload", "inbox", "play-circle", "repeat", "refresh", "list-alt", "lock", "flag", "headphones", "volume-off", "volume-down", "volume-up", "qrcode", "barcode", "tag", "tags", "book", "bookmark", "print", "camera", "font", "bold", "italic", "text-height", "text-width", "align-left", "align-center", "align-right", "align-justify", "list", "indent-left", "indent-right", "facetime-video", "picture", "map-marker", "adjust", "tint", "share", "check", "move", "step-backward", "fast-backward", "backward", "play", "pause", "stop", "forward", "fast-forward", "step-forward", "eject", "chevron-left", "chevron-right", "plus-sign", "minus-sign", "remove-sign", "ok-sign", "question-sign", "info-sign", "screenshot", "remove-circle", "ok-circle", "ban-circle", "arrow-left", "arrow-right", "arrow-up", "arrow-down", "share-alt", "resize-full", "resize-small", "exclamation-sign", "gift", "leaf", "fire", "eye-open", "eye-close", "warning-sign", "plane", "calendar", "random", "comment", "magnet", "chevron-up", "chevron-down", "retweet", "shopping-cart", "folder-close", "folder-open", "resize-vertical", "resize-horizontal", "hdd", "bullhorn", "bell", "certificate", "thumbs-up", "thumbs-down", "hand-right", "hand-left", "hand-up", "hand-down", "circle-arrow-right", "circle-arrow-left", "circle-arrow-up", "circle-arrow-down", "globe", "wrench", "tasks", "filter", "briefcase", "fullscreen", "dashboard", "paperclip", "heart-empty", "link", "phone", "pushpin", "usd", "gbp", "sort", "sort-by-alphabet", "sort-by-alphabet-alt", "sort-by-order", "sort-by-order-alt", "sort-by-attributes", "sort-by-attributes-alt", "unchecked", "expand", "collapse-down", "collapse-up", "log-in", "flash", "new-window", "record", "save", "open", "saved", "import", "export", "send", "floppy-disk", "floppy-saved", "floppy-remove", "floppy-save", "floppy-open", "credit-card", "transfer", "cutlery", "header", "compressed", "earphone", "phone-alt", "tower", "stats", "sd-video", "hd-video", "subtitles", "sound-stereo", "sound-dolby", "sound-5-1", "sound-6-1", "sound-7-1", "copyright-mark", "registration-mark", "cloud-download", "cloud-upload", "tree-conifer", "tree-deciduous", "cd", "save-file", "open-file", "level-up", "copy", "paste", "alert", "equalizer", "king", "queen", "pawn", "bishop", "knight", "baby-formula", "tent", "blackboard", "bed", "apple", "erase", "hourglass", "lamp", "duplicate", "piggy-bank", "scissors", "bitcoin", "btc", "xbt", "yen", "jpy", "ruble", "rub", "scale", "ice-lolly", "ice-lolly-tasted", "education", "option-horizontal", "option-vertical", "menu-hamburger", "modal-window", "oil", "grain", "sunglasses", "text-size", "text-color", "text-background", "object-align-top", "object-align-bottom", "object-align-horizontal", "object-align-left", "object-align-vertical", "object-align-right", "triangle-right", "triangle-left", "triangle-bottom", "triangle-top", "console", "superscript", "subscript", "menu-left", "menu-right", "menu-down", "menu-up");
 
-	$rand = array_rand($glyphicons, 1); 
-	return $glyphicons[$rand];
+	$rand = array_rand($glyph_icons, 1);
+	return $glyph_icons[$rand];
 }
 
 
@@ -46,12 +44,13 @@ if($_POST) {
 
 	// connecting to the host
 	$link = mysqli_connect($host, $username, $password);
+
 	if (!$link) {
 		die(json_encode(array('status' => 'error','message'=> 'Could not connect: ' . mysqli_error($link))));
 	}
 
 	// if the action is to connect, we request all databases
-	if($action == "connect"){
+	if($action == "connect") {
 		$result = '';
 		$res = mysqli_query($link, "SHOW DATABASES");
 		if (!$res) {
@@ -61,7 +60,7 @@ if($_POST) {
 			$result .= "<option value=\"" .$row['Database'] . "\">" .$row['Database'] . "</option>";
 		}
 
-		if(!$result){
+		if(!$result) {
 			echo json_encode(array('status' => 'error','message'=> 'Error in data collection'));
 		} else {
 			echo json_encode(array('status' => 'success','result'=> $result));
@@ -70,17 +69,17 @@ if($_POST) {
 	}
 
 	// process starts if the action is to generate the admin panel
-	else if($action == "generate") {
+	else if ($action == "generate") {
 
 		// get the database name
 		$database = $_POST["database"];
 
 		// gather success info and display to user at the end
 		$message = "The operations that were performed are: <ul>";
-		
+
 		// select the database
-		$linkdb = mysqli_select_db($link, $database);
-		if (!$linkdb) {
+		$db_link = mysqli_select_db($link, $database);
+		if (!$db_link) {
 			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select database: ' . mysqli_error($link))));
 		}
 
@@ -97,7 +96,7 @@ if($_POST) {
 
 		// loop to show all the tables and fields
 		$loop = mysqli_query($link, "SHOW tables FROM $database");
-		
+
 		if (!$loop) {
 			die(json_encode(array('status' => 'error','message'=> 'Couldn\'t select table: ' . mysqli_error($link))));
 		}
@@ -106,7 +105,7 @@ if($_POST) {
 		// collecting DB connection info to generate includes/connect.php file
 		$connection = "<?php
 		\$link = mysqli_connect(\"$host\", \"$username\", \"$password\");
-		mysqli_select_db(\$link, \"$database\");  
+		mysqli_select_db(\$link, \"$database\");
 		mysqli_query(\$link, \"SET CHARACTER SET utf8\");
 		?>
 		";
@@ -139,7 +138,7 @@ if($_POST) {
 		$header = '<?php
 		error_reporting(0);
 		session_start();
-		if ($_COOKIE["auth"] != "admin_in"){header("location:"."./");}
+		if ($_COOKIE["auth"] != "admin_in") {header("location:"."./");}
 			include("includes/connect.php");
 			include("includes/data.php");
 			?>
@@ -153,12 +152,8 @@ if($_POST) {
 
 				<meta name="description" content="Mass Admin Panel">
 				<title>' .ucfirst($database). ' Admin Panel</title>
-	
-				<!-- Latest compiled and minified CSS -->
-				<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
-
 				<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-h21C2fcDk/eFsW9sC9h0dhokq5pDinLNklTKoxIZRUn3+hvmgQSffLLQ4G4l2eEr" crossorigin="anonymous">
-				
+
 				<!-- Custom CSS -->
 				<link rel="stylesheet" href="includes/style.css">
 				<link href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -169,7 +164,6 @@ if($_POST) {
 					<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 					<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 				<![endif]-->
-					
 			</head>
 
 			<body>
@@ -186,7 +180,6 @@ if($_POST) {
 							' .ucfirst($database). '<br>
 							<i id="sidebarExtend" class="glyphicon glyphicon-circle-arrow-right"></i>
 						</strong>
-						
 					</div><!-- /sidebar-header -->
 
 					<!-- start sidebar -->
@@ -200,7 +193,7 @@ if($_POST) {
 			';
 
 			// looping all the database tables
-			while($table = mysqli_fetch_array($loop)){
+			while($table = mysqli_fetch_array($loop)) {
 
 				// having a name for the table in two cases, all small caps and capitalised
 				$capital = ucfirst($table[0]);
@@ -227,7 +220,7 @@ if($_POST) {
 				\$data=[];
 
 				$"."act = $"."_GET['act'];
-				if($"."act == \"edit\"){
+				if($"."act == \"edit\") {
 					$"."id = $"."_GET['id'];
 					$".$small." = getById(\"".$small."\", $"."id);
 				}
@@ -243,7 +236,7 @@ if($_POST) {
 
 				// continue the save page
 				$save .= "
-				if($"."cat == \"".$small."\" || $"."cat_get == \"".$small."\"){
+				if($"."cat == \"".$small."\" || $"."cat_get == \"".$small."\") {
 					";
 
 				// continue the home page
@@ -270,13 +263,13 @@ if($_POST) {
 					or die ('cannot select table fields');
 
 				// looping in the columns
-				while ($col = mysqli_fetch_array($row)){
-					// data for the table in the show page tableName.php 
+				while ($col = mysqli_fetch_array($row)) {
+					// data for the table in the show page tableName.php
 					$head .= "		\t<th>" . ucfirst(str_replace("_", " ", $col[0])) . "</th>\n";
 					$body .= "	\t<td><?php echo $".$small."s['" . $col[0] . "']?></td>\n";
 
-					if($col[3] != "PRI"){
-						if($col[1] == "text"){
+					if($col[3] != "PRI") {
+						if($col[1] == "text") {
 
 							// continue the edit page with a text area for a type text column
 							$edit .= "
@@ -293,13 +286,13 @@ if($_POST) {
 					}
 
 					// check if the column is not the ID to create the corresponding save and insert data
-					if ($col[0] != 'id'){
+					if ($col[0] != 'id') {
 
 						$save .= "$" . $col[0] . " = mysqli_real_escape_string(\$link,$"."_POST[\"" . $col[0] . "\"]);\n";
 
 						$insert .= " `" . $col[0] . "` ,";
 
-						if($col[0] == "password"){
+						if($col[0] == "password") {
 							$attach_password = 1;
 							$values .= " '\".md5($" . $col[0] . ").\"',";
 
@@ -327,7 +320,6 @@ if($_POST) {
 					?>
 					<tr>";
 
-
 				// build the whole page
 				$show .= $head."\n";
 				$show .= $mid."\n";
@@ -341,7 +333,6 @@ if($_POST) {
 					<?php include \"includes/footer.php\";?>
 				";
 
-
 				$edit .= "<br>
 					<input type=\"submit\" value=\" Save \" class=\"btn btn-success\">
 					</form>
@@ -350,21 +341,21 @@ if($_POST) {
 
 				$save .= "
 
-				if($"."act == \"add\"){
+				if($"."act == \"add\") {
 					mysqli_query(\$link, \"INSERT INTO `".$small."` ( ".removeLastChar($insert).") VALUES (".removeLastChar($values).") \");
-				}elseif ($"."act == \"edit\"){
+				}elseif ($"."act == \"edit\") {
 					mysqli_query(\$link, \"UPDATE `".$small."` SET ".removeLastChar($update)." WHERE `id` = '\".$"."id.\"' \"); ";
 
-				if($attach_password == 1){
+				if($attach_password == 1) {
 					$save .= "
-					if($"."_POST[\"password\"] && $"."_POST[\"password\"] != \"\"){
+					if($"."_POST[\"password\"] && $"."_POST[\"password\"] != \"\") {
 						mysqli_query(\$link, \"UPDATE `".$small."` SET  `password` =  '\".md5($"."password).\"' WHERE `id` = '\".$"."id.\"' \");
 					}
 					";
 				}
 
-				$save .= "	
-					}elseif ($"."act_get == \"delete\"){
+				$save .= "
+					}elseif ($"."act_get == \"delete\") {
 						mysqli_query(\$link, \"DELETE FROM `".$small."` WHERE id = '\".$"."id_get.\"' \");
 					}
 					header(\"location:\".\"".$small.".php\");
@@ -395,7 +386,6 @@ if($_POST) {
 					</div>
 				</div>
 
-
 				<!-- jQuery Version 1.11.1 -->
 				<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
@@ -407,9 +397,8 @@ if($_POST) {
 				<script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
 				<script type="text/javascript">
-					 $(document).ready(function () {
-
-					 	$("#sidebarCollapse, #sidebarExtend").on("click", function () {
+					$(document).ready(function () {
+						$("#sidebarCollapse, #sidebarExtend").on("click", function () {
 							$("#sidebar").toggleClass("active");
 						});
 
@@ -417,19 +406,17 @@ if($_POST) {
 							"bStateSave": true,
 							"sPaginationType": "full_numbers"
 						});
-					 });
+					});
 				</script>
 
 				<script type="text/javascript">
-				function navConfirm(loc) {
-					if (confirm("Are you sure?")) {
-						window.location.href = loc;
+					function navConfirm(loc) {
+						if (confirm("Are you sure?")) {
+							window.location.href = loc;
+						}
+						return false;
 					}
-					return false;
-				}
 				</script>
-
-				
 			</body>
 			</html>';
 
@@ -439,7 +426,7 @@ if($_POST) {
 
 			$header .= "<li><a href=\"logout.php\"><i class=\"glyphicon glyphicon-log-out\"></i> Logout</a></li>
 				</ul>
-				
+
 				<div class=\"visit\">
 					<p class=\"text-center\">Created using MAGE &hearts;</p>
 					<a href=\"https://github.com/housamz/php-mysql-admin-panel-generator\" target=\"_blank\" >Visit Project</a>
@@ -486,9 +473,7 @@ echo json_encode(array('status' => 'finished','message'=> '<h1>Finished!</h1><h3
 
 	}
 
-
 } else {
-
-	echo json_encode(array('status' => 'error','message'=> 'Unknown error occured'));
+	echo json_encode(array('status' => 'error','message'=> 'Unknown error occurred'));
 }
 ?>

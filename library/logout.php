@@ -1,6 +1,6 @@
 <?php
-	setcookie("adminname","");
-	setcookie("adminpass","");
+	setcookie("admin_id","");
+	setcookie("admin_pass","");
 	setcookie("auth","");
 	header("location:"."index.php");
 ?>

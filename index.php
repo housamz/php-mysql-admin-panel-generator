@@ -8,12 +8,9 @@
 
 	<meta name="description" content="Mass Admin Panel">
 	<title>MAGE :: MySQL Admin Generator</title>
-	
-	<!-- Latest compiled and minified CSS -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
 
 	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-h21C2fcDk/eFsW9sC9h0dhokq5pDinLNklTKoxIZRUn3+hvmgQSffLLQ4G4l2eEr" crossorigin="anonymous">
-	
+
 	<!-- Custom CSS -->
 	<style type="text/css">
 		.card-blockquote{border: none; margin-top: 30px}
@@ -55,13 +52,13 @@
 									<legend class="hidden-first">Server Info</legend>
 									<div class="form-group hidden-first">
 										<label for="inputHost">Host</label>
-										<input type="text" class="form-control" id="inputHost" placeholder="Host" aria-describedby="hostHelp" required>
+										<input type="text" class="form-control" id="inputHost" placeholder="Host" aria-describedby="hostHelp" value="127.0.0.1" required>
 										<small id="hostHelp" class="form-text text-muted">Your server address, e.g. localhost</small>
 									</div>
 
 									<div class="form-group hidden-first">
 										<label for="inputUsername">Username</label>
-										<input type="text" class="form-control" id="inputUsername" placeholder="Username" aria-describedby="usernameHelp" required>
+										<input type="text" class="form-control" id="inputUsername" placeholder="Username" aria-describedby="usernameHelp" value="root" required>
 										<small id="usernameHelp" class="form-text text-muted">Database username, e.g. root</small>
 									</div>
 
@@ -86,14 +83,13 @@
 						</div>
 
 						<div class="col-lg-3 alert alert-info">
-						
 							<h3>Disclaimer</h3>
 							<ul>
 								<li>Mage doesn't provide a secure CRUD system. The goal of this tool is to make a fast admin panel to control a MySQL database, but securing that is your own responsibility.</li>
 								<li>This may harm your MySQL database, so it's a good idea to keep a backup. </li>
 							</ul>
 						</div>
-						
+
 						<div class="clearfix"></div><br>
 						<div class="col-lg-12">
 							<small class="text-muted">
@@ -117,11 +113,16 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
-		$(document).ready(function () {
-			$("#connect, #generate").on("click", function(e) {
+		$(document).ready( function () {
+			$("#connect, #generate").on("click", function (e) {
 				e.preventDefault();
 				action = $(this).attr("id");
-				if(action=="generate"){$("#generate").text('Please Wait...');$("#generate").attr('disabled','disabled');}
+
+				if (action === "generate") {
+					$("#generate").text("Please Wait...");
+					$("#generate").attr("disabled","disabled");
+				}
+
 				$.ajax({
 					type: "POST",
 					url: "handler.php",
@@ -133,17 +134,23 @@
 						password: $("#inputPassword").val(),
 						database: $("#dbSelect").val()
 					},
-					success: function(response){
-						if(action=="generate"){$("#generate").text('Generate');$("#generate").removeAttr('disabled');}
-						if(response.status == "success") {
+					success: function(response) {
+						if (action === "generate") {
+							$("#generate").text("Generate");
+							$("#generate").removeAttr("disabled");
+						}
+
+						if(response.status === "success") {
 							$("#dbSelect").append(response.result);
 							$(".hidden-first").toggleClass("hide");
-						
-						} else if(response.status == "finished") {
+						} else if(response.status === "finished") {
 							$(".panel-body").html(response.message);
 						} else {
 							alert(response.message);
 						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						console.log(errorThrown);
 					}
 				});
 			});
