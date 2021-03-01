@@ -26,7 +26,7 @@ function createFile($database, $myFile, $stringData) {
 }
 
 // function to return a random glyph icon to be used in the side bar links
-function random_glyphicon() {
+function random_glyph_icon() {
 	$glyph_icons = array("asterisk", "plus", "euro", "eur", "minus", "cloud", "envelope", "pencil", "glass", "music", "search", "heart", "star", "star-empty", "user", "film", "th-large", "th", "th-list", "ok", "remove", "zoom-in", "zoom-out", "off", "signal", "cog", "file", "time", "road", "download-alt", "download", "upload", "inbox", "play-circle", "repeat", "refresh", "list-alt", "lock", "flag", "headphones", "volume-off", "volume-down", "volume-up", "qrcode", "barcode", "tag", "tags", "book", "bookmark", "print", "camera", "font", "bold", "italic", "text-height", "text-width", "align-left", "align-center", "align-right", "align-justify", "list", "indent-left", "indent-right", "facetime-video", "picture", "map-marker", "adjust", "tint", "share", "check", "move", "step-backward", "fast-backward", "backward", "play", "pause", "stop", "forward", "fast-forward", "step-forward", "eject", "chevron-left", "chevron-right", "plus-sign", "minus-sign", "remove-sign", "ok-sign", "question-sign", "info-sign", "screenshot", "remove-circle", "ok-circle", "ban-circle", "arrow-left", "arrow-right", "arrow-up", "arrow-down", "share-alt", "resize-full", "resize-small", "exclamation-sign", "gift", "leaf", "fire", "eye-open", "eye-close", "warning-sign", "plane", "calendar", "random", "comment", "magnet", "chevron-up", "chevron-down", "retweet", "shopping-cart", "folder-close", "folder-open", "resize-vertical", "resize-horizontal", "hdd", "bullhorn", "bell", "certificate", "thumbs-up", "thumbs-down", "hand-right", "hand-left", "hand-up", "hand-down", "circle-arrow-right", "circle-arrow-left", "circle-arrow-up", "circle-arrow-down", "globe", "wrench", "tasks", "filter", "briefcase", "fullscreen", "dashboard", "paperclip", "heart-empty", "link", "phone", "pushpin", "usd", "gbp", "sort", "sort-by-alphabet", "sort-by-alphabet-alt", "sort-by-order", "sort-by-order-alt", "sort-by-attributes", "sort-by-attributes-alt", "unchecked", "expand", "collapse-down", "collapse-up", "log-in", "flash", "new-window", "record", "save", "open", "saved", "import", "export", "send", "floppy-disk", "floppy-saved", "floppy-remove", "floppy-save", "floppy-open", "credit-card", "transfer", "cutlery", "header", "compressed", "earphone", "phone-alt", "tower", "stats", "sd-video", "hd-video", "subtitles", "sound-stereo", "sound-dolby", "sound-5-1", "sound-6-1", "sound-7-1", "copyright-mark", "registration-mark", "cloud-download", "cloud-upload", "tree-conifer", "tree-deciduous", "cd", "save-file", "open-file", "level-up", "copy", "paste", "alert", "equalizer", "king", "queen", "pawn", "bishop", "knight", "baby-formula", "tent", "blackboard", "bed", "apple", "erase", "hourglass", "lamp", "duplicate", "piggy-bank", "scissors", "bitcoin", "btc", "xbt", "yen", "jpy", "ruble", "rub", "scale", "ice-lolly", "ice-lolly-tasted", "education", "option-horizontal", "option-vertical", "menu-hamburger", "modal-window", "oil", "grain", "sunglasses", "text-size", "text-color", "text-background", "object-align-top", "object-align-bottom", "object-align-horizontal", "object-align-left", "object-align-vertical", "object-align-right", "triangle-right", "triangle-left", "triangle-bottom", "triangle-top", "console", "superscript", "subscript", "menu-left", "menu-right", "menu-down", "menu-up");
 
 	$rand = array_rand($glyph_icons, 1);
@@ -196,8 +196,9 @@ if($_POST) {
 			while($table = mysqli_fetch_array($loop)) {
 
 				// having a name for the table in two cases, all small caps and capitalised
-				$capital = ucfirst($table[0]);
-				$small = strtolower($table[0]);
+				$table_name = $table[0];
+				$capital = ucfirst($table_name);
+				$small = strtolower($table_name);
 
 				// collecting the contents for the table main page tableName.php
 				$show = "<?php
@@ -207,7 +208,7 @@ if($_POST) {
 				<a class=\"btn btn-primary\" href=\"edit-".$small.".php?act=add\"> <i class=\"glyphicon glyphicon-plus-sign\"></i> Add New " . $capital . "</a>
 
 				<h1>" . $capital . "</h1>
-				<p>This table includes <?php echo counting(\"".$small."\", \"id\");?> ".$small.".</p>
+				<p>This table includes <?php echo counting(\"".$table_name."\", \"id\");?> ".$small.".</p>
 
 				<table id=\"sorted\" class=\"table table-striped table-bordered\">
 				<thead>
@@ -222,34 +223,34 @@ if($_POST) {
 				$"."act = $"."_GET['act'];
 				if($"."act == \"edit\") {
 					$"."id = $"."_GET['id'];
-					$".$small." = getById(\"".$small."\", $"."id);
+					$".$small." = getById(\"".$table_name."\", $"."id);
 				}
 				?>
 
 				<form method=\"post\" action=\"save.php\" enctype='multipart/form-data'>
 					<fieldset>
 						<legend class=\"hidden-first\">Add New ".$capital."</legend>
-						<input name=\"cat\" type=\"hidden\" value=\"".$small."\">
+						<input name=\"cat\" type=\"hidden\" value=\"".$table_name."\">
 						<input name=\"id\" type=\"hidden\" value=\"<?=$"."id?>\">
 						<input name=\"act\" type=\"hidden\" value=\"<?=$"."act?>\">
 				";
 
 				// continue the save page
 				$save .= "
-				if($"."cat == \"".$small."\" || $"."cat_get == \"".$small."\") {
+				if($"."cat == \"".$table_name."\" || $"."cat_get == \"".$table_name."\") {
 					";
 
 				// continue the home page
 				$index .= "
 				<tr>
 					<td><a href=\"" . $small . ".php\">" . $capital . "</a></td>
-					<td><?=counting(\"" . $small . "\", \"id\")?></td>
+					<td><?=counting(\"" . $table_name . "\", \"id\")?></td>
 				</tr>
 				";
 
 				// continue the sidebar in header
-				$icon = random_glyphicon();
-				$header .= "<li><a href=\"" . $small . ".php\"> <i class=\"glyphicon glyphicon-".$icon."\"></i>" . $capital . " <span class=\"pull-right\"><?=counting(\"" . $small . "\", \"id\")?></span></a></li>\n";
+				$icon = random_glyph_icon();
+				$header .= "<li><a href=\"" . $small . ".php\"> <i class=\"glyphicon glyphicon-".$icon."\"></i>" . $capital . " <span class=\"pull-right\"><?=counting(\"" . $table_name . "\", \"id\")?></span></a></li>\n";
 
 				$head='';
 				$body='';
@@ -259,7 +260,7 @@ if($_POST) {
 				$update='';
 				$values='';
 				// finding all the columns in a table
-				$row = mysqli_query($link, "SHOW columns FROM " . $table[0])
+				$row = mysqli_query($link, "SHOW columns FROM " . $table_name)
 					or die ('cannot select table fields');
 
 				// looping in the columns
@@ -270,11 +271,13 @@ if($_POST) {
 
 					if($col[3] != "PRI") {
 						if($col[1] == "text") {
+							$ckeditor = "";
+							if ($_POST["htmlEditor"]) { $ckeditor = "ckeditor "; }
 
 							// continue the edit page with a text area for a type text column
 							$edit .= "
 							<label>" . ucfirst(str_replace("_", " ", $col[0])) . "</label>
-							<textarea class=\"ckeditor form-control\" name=\"" . $col[0] . "\"><?=$".$small."['" . $col[0] . "']?></textarea><br>
+							<textarea class=\"". $ckeditor ."form-control\" name=\"" . $col[0] . "\"><?=$".$small."['" . $col[0] . "']?></textarea><br>
 							";
 						} else {
 							// continue the edit page with an input field
@@ -288,7 +291,7 @@ if($_POST) {
 					// check if the column is not the ID to create the corresponding save and insert data
 					if ($col[0] != 'id') {
 
-						$save .= "$" . $col[0] . " = mysqli_real_escape_string(\$link,$"."_POST[\"" . $col[0] . "\"]);\n";
+						$save .= "$" . $col[0] . " = addslashes(htmlentities($"."_POST[\"" . $col[0] . "\"], ENT_QUOTES));\n";
 
 						$insert .= " `" . $col[0] . "` ,";
 
@@ -315,7 +318,7 @@ if($_POST) {
 				// show page central part
 				$mid = "
 				<?php
-				$".$small." = getAll(\"".$small."\");
+				$".$small." = getAll(\"".$table_name."\");
 				if($".$small.") foreach ($".$small." as $".$small."s):
 					?>
 					<tr>";
@@ -326,7 +329,7 @@ if($_POST) {
 				$show .= $body."\n";
 				$show .= "
 						<td><a href=\"edit-".$small.".php?act=edit&id=<?php echo $".$small."s['id']?>\"><i class=\"glyphicon glyphicon-edit\"></i></a></td>
-						<td><a href=\"save.php?act=delete&id=<?php echo $".$small."s['id']?>&cat=".$small."\" onclick=\"return navConfirm(this.href);\"><i class=\"glyphicon glyphicon-trash\"></i></a></td>
+						<td><a href=\"save.php?act=delete&id=<?php echo $".$small."s['id']?>&cat=".$table_name."\" onclick=\"return navConfirm(this.href);\"><i class=\"glyphicon glyphicon-trash\"></i></a></td>
 						</tr>
 					<?php endforeach; ?>
 					</table>
@@ -342,21 +345,21 @@ if($_POST) {
 				$save .= "
 
 				if($"."act == \"add\") {
-					mysqli_query(\$link, \"INSERT INTO `".$small."` ( ".removeLastChar($insert).") VALUES (".removeLastChar($values).") \");
+					mysqli_query(\$link, \"INSERT INTO `".$table_name."` ( ".removeLastChar($insert).") VALUES (".removeLastChar($values).") \");
 				}elseif ($"."act == \"edit\") {
-					mysqli_query(\$link, \"UPDATE `".$small."` SET ".removeLastChar($update)." WHERE `id` = '\".$"."id.\"' \"); ";
+					mysqli_query(\$link, \"UPDATE `".$table_name."` SET ".removeLastChar($update)." WHERE `id` = '\".$"."id.\"' \"); ";
 
 				if($attach_password == 1) {
 					$save .= "
 					if($"."_POST[\"password\"] && $"."_POST[\"password\"] != \"\") {
-						mysqli_query(\$link, \"UPDATE `".$small."` SET  `password` =  '\".md5($"."password).\"' WHERE `id` = '\".$"."id.\"' \");
+						mysqli_query(\$link, \"UPDATE `".$table_name."` SET  `password` =  '\".md5($"."password).\"' WHERE `id` = '\".$"."id.\"' \");
 					}
 					";
 				}
 
 				$save .= "
 					}elseif ($"."act_get == \"delete\") {
-						mysqli_query(\$link, \"DELETE FROM `".$small."` WHERE id = '\".$"."id_get.\"' \");
+						mysqli_query(\$link, \"DELETE FROM `".$table_name."` WHERE id = '\".$"."id_get.\"' \");
 					}
 					header(\"location:\".\"".$small.".php\");
 				}

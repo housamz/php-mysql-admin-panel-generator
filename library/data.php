@@ -19,9 +19,9 @@ function qSELECT($query, $object = NULL) {
 		$num = mysqli_num_rows($result);
 		for ($i=0; $i<$num; $i++) {
 			if(!is_null($object)) {
-				$row = mysqli_fetch_object($result);
+				$row = mysqli_fetch_object($result, MYSQLI_ASSOC);
 			}else{
-				$row = mysqli_fetch_array($result);
+				$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			}
 			$return[$i]=$row;
 		}

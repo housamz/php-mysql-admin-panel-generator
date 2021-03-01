@@ -75,6 +75,10 @@
 											<option value="">Please select</option>
 										</select>
 									</div>
+									<div class="form-group hidden-first hide">
+										<input type="checkbox" id="htmlEditor">
+										<label for="htmlEditor">Enable full HTML editor for columns of type TEXT</label>
+									</div>
 
 									<button class="btn btn-primary hidden-first hide" id="generate">Generate Admin Panel</button>
 								</fieldset>
@@ -132,7 +136,8 @@
 						host: $("#inputHost").val(),
 						username: $("#inputUsername").val(),
 						password: $("#inputPassword").val(),
-						database: $("#dbSelect").val()
+						database: $("#dbSelect").val(),
+						htmlEditor: $("#htmlEditor").is(":checked") ? 1 : 0,
 					},
 					success: function(response) {
 						if (action === "generate") {
