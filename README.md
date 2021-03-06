@@ -19,7 +19,7 @@ Mage (meɪdʒ): a magician or learned person.
 ***Note: You need to make sure that you have `php-mysql` package that connects PHP with MySQL, and that you change the `generated` directory permissions to be 777.***  
 
 | Step | Thumb                                                                  | Instructions  |
-| ---- |:----------------------------------------------------------------------:| -------------:|
+| :--: |:----------------------------------------------------------------------:| :------------ |
 |  1   | <a href="images/1.png" target="_blank"><img src="images/1.png" width="200"></a> | Start by providing your MySQL Server Info, then click Next Step button. |
 |  2   | <a href="images/2.png" target="_blank"><img src="images/2.png" width="200"></a> | The tool will scan the server for available databases and list them in a dropdown menu, select the database that you want, then check if you need full HTML editor or not, and then click "Generate Admin Panel" button |
 |  3   | <a href="images/3.png" target="_blank"><img src="images/3.png" width="200"></a> | After a few seconds, you'll get a success message, with a link to the newly created admin panel, and a report of all the operations that were done. |
